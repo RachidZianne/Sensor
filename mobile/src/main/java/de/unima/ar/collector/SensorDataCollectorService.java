@@ -113,8 +113,10 @@ public class SensorDataCollectorService extends Service
             SQLDBController.getInstance().registerDevice(device);
         }
 
+        //set power manger to partial wake lock
+
         PowerManager manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        this.mWakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SensorCollectorManager");
+        this.mWakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "tag:SensorCollectorManagers");
         this.mWakeLock.acquire();
 
         // reactivate sensors
