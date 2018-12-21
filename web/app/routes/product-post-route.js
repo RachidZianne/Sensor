@@ -15,7 +15,7 @@ module.exports = function (app, db) {
     //     {...},{...}
     // ]
     app.post('/api/product/', (req, res) => {
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:4300/api");
 
          var data = req.body;
          

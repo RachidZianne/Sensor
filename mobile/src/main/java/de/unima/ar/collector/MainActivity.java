@@ -1549,10 +1549,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private TextView resultTextView;
-    private Button getApiBtn,postApiBtn;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    //private TextView resultTextView;
+    //private Button getApiBtn,postApiBtn;
+    //@Override
+   /* protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_api);
         resultTextView  = (TextView)findViewById(R.id.resultTextView);
@@ -1562,25 +1562,27 @@ public class MainActivity extends AppCompatActivity
         //Attaching OnClickListener with Buttons
         getApiBtn.setOnClickListener(getApiListener);
         postApiBtn.setOnClickListener(postApiListener);
-    }
+    }*/
 
-    View.OnClickListener getApiListener=new View.OnClickListener() {
+
+   // click event
+    /*View.OnClickListener getApiListener=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             //Call getApiCall() method
             getApiCall();
         }
-    };
+    }; */
 
-    View.OnClickListener postApiListener=new View.OnClickListener() {
+  /*  View.OnClickListener postApiListener=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             //Call postApiCall() method
             postApiCall();
         }
-    };
+    }; */
 
-    private void getApiCall(){
+   /* private void getApiCall(){
         try{
             //Create Instance of GETAPIRequest and call it's
             //request() method
@@ -1593,10 +1595,10 @@ public class MainActivity extends AppCompatActivity
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     //Implementing interfaces of FetchDataListener for GET api request
-    FetchDataListener fetchGetResultListener=new FetchDataListener() {
+   /* FetchDataListener fetchGetResultListener=new FetchDataListener() {
         @Override
         public void onFetchComplete(JSONObject data) {
             //Fetch Complete. Now stop progress bar  or loader
@@ -1613,7 +1615,7 @@ public class MainActivity extends AppCompatActivity
                                 //Display the result
                                 //Or, You can do whatever you need to
                                 //do with the JSONObject
-                                resultTextView.setText(response.toString(4));
+                                //resultTextView.setText(response.toString(4));
                             }
                         }else{
                             RequestQueueService.showAlert("Error! No data fetched", MainActivity.this);
@@ -1628,19 +1630,22 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        @Override
-        public void onFetchFailure(String msg) {
+       // @Override
+       /* public void onFetchFailure(String msg) {
             RequestQueueService.cancelProgressDialog();
             //Show if any error message is there called from GETAPIRequest class
             RequestQueueService.showAlert(msg,MainActivity.this);
-        }
+        }*/
 
-        @Override
-        public void onFetchStart() {
+      //  @Override
+       /* public void onFetchStart() {
             //Start showing progressbar or any loader you have
             RequestQueueService.showProgressDialog(MainActivity.this);
         }
-    };
+    };*/
+
+       // I removed the API call btn listner
+      // I need to put automatic listner flow onchange
 
     private void postApiCall(){
         try{
@@ -1649,7 +1654,7 @@ public class MainActivity extends AppCompatActivity
             POSTAPIRequest postapiRequest=new POSTAPIRequest();
             //Attaching only part of URL as base URL is given
             //in our POSTAPIRequest(of course that need to be same for all case)
-            String url="webapi.php";
+            String url="https://zianneson.com/sensors/sensor.json";
             JSONObject params=new JSONObject();
             try {
                 //Creating POST body in JSON format
@@ -1683,7 +1688,7 @@ public class MainActivity extends AppCompatActivity
                                 //Display the result
                                 //Or, You can do whatever you need to
                                 //do with the JSONObject
-                                resultTextView.setText(response.toString(4));
+                                //resultTextView.setText(response.toString(4));
                             }
                         }else{
                             RequestQueueService.showAlert("Error! No data fetched", MainActivity.this);

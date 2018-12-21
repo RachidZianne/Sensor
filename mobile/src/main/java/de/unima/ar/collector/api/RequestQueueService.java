@@ -86,7 +86,7 @@ public class RequestQueueService {
 
                 mProgressDialog = new Dialog(activity);
                 mProgressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-                mProgressDialog.setContentView(R.layout.progress_indicator);
+                //mProgressDialog.setContentView(R.layout.progress_indicator);
                 mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 mProgressDialog.show();
                 mProgressDialog.setCancelable(false);
