@@ -177,6 +177,9 @@ public class MainActivity extends AppCompatActivity
                     //Manifest.permission.SYSTEM_ALERT_WINDOW -not possible to acquire in >22
             }, 0);
         }
+
+
+//        GlobleMethod.getInstance(getApplicationContext()).saveDataBase();
     }
 
 
@@ -1359,6 +1362,10 @@ public class MainActivity extends AppCompatActivity
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR;
 
+
+        if (GlobleMethod.gmethod == null) {
+            GlobleMethod.getInstance(getApplicationContext()).saveDataBase();
+        }
         return notification;
     }
 

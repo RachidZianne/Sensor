@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.unima.ar.collector.GlobleMethod;
 import de.unima.ar.collector.R;
 import de.unima.ar.collector.controller.SQLDBController;
 import de.unima.ar.collector.services.APIService;
@@ -97,44 +98,11 @@ public class DatabaseExportSQL extends AsyncTask<String, Void, Boolean> implemen
             return false;
         }
         else {
-            if (target.exists()) {
-                String table = "SDC_Activity";
-                String field_name = "name";
 
-                String query = "SELECT "+field_name+" FROM "+table;
-                List<String[]> tblData = SQLDBController.getInstance().query(query, null, false);
-
-
-                StringBuilder sdcData = new StringBuilder();
-                for (int i = 0; i < tblData.size(); i++) {
-                    if (sdcData.length() <= 0) {
-                        sdcData.append(tblData.get(i)[0]);
-                    }
-                    else {
-                        sdcData.append(";"+tblData.get(i)[0]);
-                    }
-                }
-
-                HashMap<String, Object> sdcdict = new HashMap<>();
-                sdcdict.put("name", sdcData);
-
-                mAPIService.saveProductInfo(sdcdict).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        System.out.print("cef");
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        System.out.print("cef");
-                    }
-                });
-            }
         }
 
         // make new file discoverable
         MediaScannerConnection.scanFile(context, new String[]{ target.getAbsolutePath() }, null, this);
-
         return true;
     }
 
