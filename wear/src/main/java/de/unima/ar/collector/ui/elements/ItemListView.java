@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import de.unima.ar.collector.R;
 
-public class ItemListView extends FrameLayout implements WearableListView.Item
+public class ItemListView extends FrameLayout implements WearableListView.OnCenterProximityListener
 {
     // circle
     private       float scale;
@@ -79,40 +79,103 @@ public class ItemListView extends FrameLayout implements WearableListView.Item
     }
 
 
+//    @Override
+//    public float getProximityMinValue()
+//    {
+//        return defaultCircleRadius;
+//    }
+//
+//
+//    @Override
+//    public float getProximityMaxValue()
+//    {
+//        return selectedCircleRadius;
+//    }
+//
+//
+//    @Override
+//    public float getCurrentProximityValue()
+//    {
+//        return this.scale;
+//    }
+//
+//
+//    @Override
+//    public void setScalingAnimatorValue(float value)
+//    {
+//        this.scale = value;
+//
+//        this.imgView.setCircleRadius(this.scale);
+//        this.imgView.setCircleRadiusPressed(this.scale);
+//    }
+
+
+//    @Override
+//    public void onScaleUpStart()
+//    {
+//        this.imgView.setAlpha(1f);
+//        this.imgView.setCircleColor(this.chosenCircleColor);
+//
+//        this.txtView.setAlpha(1f);
+//        this.txtView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20.0f);
+//
+//        if(circle) {
+//            return;
+//        }
+//
+//        new Handler().post(new Runnable()
+//        {
+//            public void run()
+//            {
+//                imgView.setBackgroundResource(R.drawable.square_background_selected);
+//                imgView.setCircleBorderColor(chosenCircleColor);
+//
+//                FrameLayout.LayoutParams layoutParams = (LayoutParams) imgView.getLayoutParams();
+//                layoutParams.height = (int) selectedSquareSize;
+//                layoutParams.width = (int) selectedSquareSize;
+//                layoutParams.setMargins(leftPadding + selectedsquarePadding, selectedsquarePadding, 0, 0);
+//                imgView.setLayoutParams(layoutParams);
+//
+//                imgView.invalidate();
+//            }
+//        });
+//    }
+//
+//
+//    @Override
+//    public void onScaleDownStart()
+//    {
+//        this.imgView.setAlpha(0.5f);
+//        this.imgView.setCircleColor(this.fadedCircleColor);
+//
+//        this.txtView.setAlpha(0.5f);
+//        this.txtView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16.0f);
+//
+//        if(circle) {
+//            return;
+//        }
+//
+//        new Handler().post(new Runnable()
+//        {
+//            public void run()
+//            {
+//                imgView.setBackgroundResource(R.drawable.square_background_default);
+//                imgView.setCircleBorderColor(fadedCircleColor);
+//
+//                FrameLayout.LayoutParams layoutParams = (LayoutParams) imgView.getLayoutParams();
+//                layoutParams.height = (int) defaultSquareSize;
+//                layoutParams.width = (int) defaultSquareSize;
+//                layoutParams.setMargins(leftPadding + defaultSquarePadding, defaultSquarePadding, 0, 0);
+//                imgView.setLayoutParams(layoutParams);
+//
+//
+//                imgView.invalidate();
+//            }
+//        });
+//    }
+
     @Override
-    public float getProximityMinValue()
-    {
-        return defaultCircleRadius;
-    }
-
-
-    @Override
-    public float getProximityMaxValue()
-    {
-        return selectedCircleRadius;
-    }
-
-
-    @Override
-    public float getCurrentProximityValue()
-    {
-        return this.scale;
-    }
-
-
-    @Override
-    public void setScalingAnimatorValue(float value)
-    {
-        this.scale = value;
-
-        this.imgView.setCircleRadius(this.scale);
-        this.imgView.setCircleRadiusPressed(this.scale);
-    }
-
-
-    @Override
-    public void onScaleUpStart()
-    {
+    public void onCenterPosition(boolean animate) {
         this.imgView.setAlpha(1f);
         this.imgView.setCircleColor(this.chosenCircleColor);
 
@@ -141,10 +204,8 @@ public class ItemListView extends FrameLayout implements WearableListView.Item
         });
     }
 
-
     @Override
-    public void onScaleDownStart()
-    {
+    public void onNonCenterPosition(boolean animate) {
         this.imgView.setAlpha(0.5f);
         this.imgView.setCircleColor(this.fadedCircleColor);
 

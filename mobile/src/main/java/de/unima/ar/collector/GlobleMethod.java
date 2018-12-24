@@ -68,7 +68,7 @@ public class GlobleMethod implements MediaScannerConnection.OnScanCompletedListe
                   mAPIService.saveProductInfo(sdcdict).enqueue(new Callback<ResponseBody>() {
                       @Override
                       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                          sendDataToServer();
+                          //sendDataToServer();
                       }
 
                       @Override

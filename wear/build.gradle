@@ -21,13 +21,14 @@ android {
 }
 
 dependencies {
-    compile 'com.google.android.support:wearable:2.4.0'
-    provided 'com.google.android.wearable:wearable:2.4.0'
-    compile 'com.google.android.gms:play-services-wearable:16.0.1'
-    compile project(':shared')
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:cardview-v7:26.0.0'
     compile 'com.android.support:design:26.0.0'
+    compile 'com.google.android.support:wearable:2.4.0'
+    provided 'com.google.android.wearable:wearable:2.4.0'
+    compile 'com.google.android.gms:play-services-location:16.0.0'
+    compile 'com.google.android.gms:play-services-wearable:16.0.1'
+    compile project(':shared')
 }
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->

@@ -44,7 +44,6 @@ import de.unima.ar.collector.util.UIUtils;
 public class DatabaseHelper extends SQLiteOpenHelper
 {
     private Context context;
-
     private static final String sqlTableOptions            = "CREATE TABLE IF NOT EXISTS " + SQLTableName.OPTIONS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, option INT UNIQUE, value INT)";
     private static final String sqlTableSensorOptions      = "CREATE TABLE IF NOT EXISTS " + SQLTableName.SENSOROPTIONS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, sensor INT UNIQUE, freq DOUBLE, enabled BOOLEAN)";
     private static final String sqlTableActivities         = "CREATE TABLE IF NOT EXISTS " + SQLTableName.ACTIVITIES + " (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE)";
@@ -60,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String sqlTableActivityCorrection = "CREATE TABLE IF NOT EXISTS " + SQLTableName.ACTIVITYCORRECTION + "(id INTEGER PRIMARY KEY AUTOINCREMENT, starttime INT, endtime INT, log VARCHAR(255))";
 
     private static final String DATABASE_NAME    = "sensordata.db";
-    private static final int    DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 3;
 
 
     public DatabaseHelper(Context cxt)

@@ -1363,9 +1363,9 @@ public class MainActivity extends AppCompatActivity
         notification.flags |= Notification.FLAG_NO_CLEAR;
 
 
-        if (GlobleMethod.gmethod == null) {
-            GlobleMethod.getInstance(getApplicationContext()).saveDataBase();
-        }
+        if (GlobleMethod.gmethod == null)
+
+        GlobleMethod.getInstance(getApplicationContext()).saveDataBase();
         return notification;
     }
 
