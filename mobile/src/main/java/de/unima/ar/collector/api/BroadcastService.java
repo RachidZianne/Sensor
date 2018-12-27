@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Node;
@@ -30,7 +29,7 @@ public class BroadcastService implements GoogleApiClient.ConnectionCallbacks, Go
     public static void initInstance(Context context)
     {
         if(SERVICE == null) {
-            SERVICE = new BroadcastService(context);
+           SERVICE = new BroadcastService(context);
         }
     }
 
@@ -58,8 +57,7 @@ public class BroadcastService implements GoogleApiClient.ConnectionCallbacks, Go
         new Thread(new Runnable()
         {
             @Override
-            public void run()
-            {
+            public void run() {
                 NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(gac).await();
                 while(nodes.getNodes().size() == 0) {
                     Utils.sleep(500);

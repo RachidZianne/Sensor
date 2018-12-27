@@ -9,7 +9,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import de.unima.ar.collector.R;
 
 public class ItemListView extends FrameLayout implements WearableListView.Item

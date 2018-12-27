@@ -4,25 +4,19 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
 import java.util.Set;
 
-public class ListenerService extends WearableListenerService
-{
+public class ListenerService extends WearableListenerService {
     private static BiMap<String, String> devices = HashBiMap.create();
 
-
-    public static int getNumberOfDevices()
-    {
+    public static int getNumberOfDevices() {
         return devices.size();
     }
-
 
     public static void addDevice(String deviceID, String deviceMAC)
     {
         devices.put(deviceID, deviceMAC);
     }
-
 
     public static void rmDevice(String key)
     {
