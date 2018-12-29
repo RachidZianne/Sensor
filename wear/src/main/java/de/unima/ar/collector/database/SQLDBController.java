@@ -216,4 +216,15 @@ public class SQLDBController
 
         return result;
     }
+
+
+    public String getPath() {
+        String path;
+        synchronized(databaseLock) {
+            SQLiteDatabase database = databaseHelper.getWritableDatabase();
+            path = database.getPath();
+        }
+
+        return path;
+    }
 }

@@ -8,14 +8,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
-
 import com.google.android.gms.wearable.WearableListenerService;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-
 import de.unima.ar.collector.MainActivity;
 import de.unima.ar.collector.R;
 import de.unima.ar.collector.SensorDataCollectorService;
@@ -41,14 +38,13 @@ import de.unima.ar.collector.util.StringUtils;
 
 class Tasks
 {
-    static void informThatWearableHasStarted(byte[] rawData, WearableListenerService wls)
-    {
+    static void informThatWearableHasStarted(byte[] rawData, WearableListenerService wls) {
         String data = StringUtils.convertByteArrayToString(rawData);
         if(data == null) {
             return;
         }
 
-        // register device
+        //register device
         String[] tmp = data.split(Pattern.quote("~#X*X#~"));
         String deviceID = tmp[0];
         String deviceAddress = tmp[1];

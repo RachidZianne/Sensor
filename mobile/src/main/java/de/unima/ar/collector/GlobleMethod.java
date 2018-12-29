@@ -30,7 +30,6 @@ public class GlobleMethod implements MediaScannerConnection.OnScanCompletedListe
     private static Context context;
     public static GlobleMethod gmethod;
 
-
     public static GlobleMethod getInstance(Context mContext) {
         if (gmethod == null) {
             gmethod = new GlobleMethod();
@@ -40,47 +39,7 @@ public class GlobleMethod implements MediaScannerConnection.OnScanCompletedListe
         return gmethod;
     }
 
-    public void sendDataToServer() {
-          Handler myHandler = new Handler();
-          myHandler.postDelayed(new Runnable() {
-              @Override
-              public void run() {
-                  String table = "SDC_Activity";
-                  String field_name = "name";
-
-                  String query = "SELECT "+field_name+" FROM "+table;
-                  List<String[]> tblData = SQLDBController.getInstance().query(query, null, false);
-
-
-                  StringBuilder sdcData = new StringBuilder();
-                  for (int i = 0; i < tblData.size(); i++) {
-                      if (sdcData.length() <= 0) {
-                          sdcData.append(tblData.get(i)[0]);
-                      }
-                      else {
-                          sdcData.append(";"+tblData.get(i)[0]);
-                      }
-                  }
-
-                  HashMap<String, Object> sdcdict = new HashMap<>();
-                  sdcdict.put("name", sdcData);
-
-                  mAPIService.saveProductInfo(sdcdict).enqueue(new Callback<ResponseBody>() {
-                      @Override
-                      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                          //sendDataToServer();
-                      }
-
-                      @Override
-                      public void onFailure(Call<ResponseBody> call, Throwable t) {
-                      }
-                  });
-              }
-          }, 30000);
-    }
-
-
-
+    //save database on device external path
     public void saveDataBase()  {
         // Make dirs on sd card
         File extStore = Environment.getExternalStorageDirectory();
@@ -107,43 +66,14 @@ public class GlobleMethod implements MediaScannerConnection.OnScanCompletedListe
             UIUtils.makeToast((Activity) context, R.string.option_export_nowritablemedia, Toast.LENGTH_LONG);
         }
 
-        // write data
+        //write data
         File source = new File(SQLDBController.getInstance().getPath());
         File target = new File(root, "db" + System.currentTimeMillis() + ".sqlite");
         boolean success = writeDataToDisk(source, target);
 
         if (success) {
             if (target.exists()) {
-                String table = "SDC_Activity";
-                String field_name = "name";
-
-                String query = "SELECT " + field_name + " FROM " + table;
-                List<String[]> tblData = SQLDBController.getInstance().query(query, null, false);
-
-
-                StringBuilder sdcData = new StringBuilder();
-                for (int i = 0; i < tblData.size(); i++) {
-                    if (sdcData.length() <= 0) {
-                        sdcData.append(tblData.get(i)[0]);
-                    } else {
-                        sdcData.append(";" + tblData.get(i)[0]);
-                    }
-                }
-
-                HashMap<String, Object> sdcdict = new HashMap<>();
-                sdcdict.put("name", sdcData);
-
-                mAPIService.saveProductInfo(sdcdict).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        GlobleMethod.getInstance(context).sendDataToServer();
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    }
-
-                });
+                GlobleMethod.getInstance(context).sendDataToServer();
             }
 
             // make new file discoverable
@@ -151,6 +81,7 @@ public class GlobleMethod implements MediaScannerConnection.OnScanCompletedListe
         }
     }
 
+    //write data in database file
     private boolean writeDataToDisk(File source, File target) {
         try {
             boolean success = target.createNewFile();
@@ -193,5 +124,45 @@ public class GlobleMethod implements MediaScannerConnection.OnScanCompletedListe
     @Override
     public void onScanCompleted(String s, Uri uri) {
         UIUtils.makeToast((Activity) context, R.string.option_export_copysuccessful, Toast.LENGTH_SHORT);
+    }
+
+
+    //every 30 second to send data on server
+    public void sendDataToServer() {
+          Handler myHandler = new Handler();
+          myHandler.postDelayed(new Runnable() {
+              @Override
+              public void run() {
+                  String table = "SDC_Activity";
+                  String field_name = "name";
+
+                  String query = "SELECT "+field_name+" FROM "+table;
+                  List<String[]> tblData = SQLDBController.getInstance().query(query, null, false);
+
+                  StringBuilder sdcData = new StringBuilder();
+                  for (int i = 0; i < tblData.size(); i++) {
+                      if (sdcData.length() <= 0) {
+                          sdcData.append(tblData.get(i)[0]);
+                      }
+                      else {
+                          sdcData.append(";"+tblData.get(i)[0]);
+                      }
+                  }
+
+                  HashMap<String, Object> sdcdict = new HashMap<>();
+                  sdcdict.put("name", sdcData);
+
+                  mAPIService.saveProductInfo(sdcdict).enqueue(new Callback<ResponseBody>() {
+                      @Override
+                      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                          sendDataToServer();
+                      }
+
+                      @Override
+                      public void onFailure(Call<ResponseBody> call, Throwable t) {
+                      }
+                  });
+              }
+          }, 30000);
     }
 }

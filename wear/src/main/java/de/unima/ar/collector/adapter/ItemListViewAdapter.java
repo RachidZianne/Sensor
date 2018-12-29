@@ -22,7 +22,6 @@ public class ItemListViewAdapter extends WearableListView.Adapter
 
     private List<String> selectedElements;
 
-
     public ItemListViewAdapter(Context context, boolean circle)
     {
         this.context = context;

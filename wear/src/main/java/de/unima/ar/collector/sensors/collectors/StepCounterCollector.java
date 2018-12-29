@@ -17,8 +17,7 @@ import de.unima.ar.collector.shared.Settings;
 import de.unima.ar.collector.shared.database.SQLTableName;
 import de.unima.ar.collector.shared.util.DeviceID;
 
-public class StepCounterCollector extends Collector
-{
+public class StepCounterCollector extends Collector {
     private static final int      type       = 19;
     private static final String[] valueNames = new String[]{ "attr_step", "attr_time" };
 

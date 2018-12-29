@@ -33,7 +33,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public DatabaseHelper(Context cxt)
     {
         super(cxt, DATABASE_NAME, null, DATABASE_VERSION);
-
         this.context = cxt;
     }
 

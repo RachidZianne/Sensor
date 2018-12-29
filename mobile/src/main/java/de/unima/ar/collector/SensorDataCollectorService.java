@@ -10,10 +10,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.widget.Toast;
-
 import java.util.List;
 import java.util.Set;
-
 import de.unima.ar.collector.api.BroadcastService;
 import de.unima.ar.collector.api.ListenerService;
 import de.unima.ar.collector.controller.SQLDBController;
@@ -21,8 +19,6 @@ import de.unima.ar.collector.database.DatabaseHelper;
 import de.unima.ar.collector.sensors.SensorCollectorManager;
 import de.unima.ar.collector.shared.Settings;
 import de.unima.ar.collector.shared.database.SQLTableName;
-
-
 /**
  * Singleton Service Klasse die unsere Background Arbeit erledigt
  *
@@ -33,12 +29,10 @@ public class SensorDataCollectorService extends Service
 {
     private static SensorDataCollectorService INSTANCE = null;
     private static boolean                    created  = false;
-
     private SensorCollectorManager scm;
     private WakeLock               mWakeLock;
 
-
-    public SensorDataCollectorService() // has to be public because it is a service
+    public SensorDataCollectorService() //has to be public because it is a service
     {
         super();
 
@@ -53,22 +47,18 @@ public class SensorDataCollectorService extends Service
         if(INSTANCE == null) {
             new SensorDataCollectorService();
         }
-
         return INSTANCE;
     }
-
 
     public SensorCollectorManager getSCM()
     {
         return this.scm;
     }
 
-
     /**
      * observe action screen off - important part! - ensures that the sensors are working correct even if the screen turns off
      */
-    public BroadcastReceiver mReceiver = new BroadcastReceiver()
-    {
+    public BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent)
         {
@@ -95,18 +85,12 @@ public class SensorDataCollectorService extends Service
             return;
         }
 
-        //SensorManager mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        //List<Sensor> deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-
         SQLDBController.getInstance();
         scm = new SensorCollectorManager(this);
-        // scm.addSensorCollector(new TestSensorCollector());
-        // scm.addSensorCollector(new AccelerometerSensorCollector());
-        // scm.openDatabase();
 
         registerReceiver(mReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
 
-        // refresh/update DB
+        //refresh/update DB
         Set<String> devices = ListenerService.getDevices();
         for(String device : devices) {
             DatabaseHelper.createDeviceDependentTables(device);
@@ -114,7 +98,6 @@ public class SensorDataCollectorService extends Service
         }
 
         //set power manger to partial wake lock
-
         PowerManager manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "tag:SensorCollectorManagers");
         this.mWakeLock.acquire();
@@ -142,20 +125,17 @@ public class SensorDataCollectorService extends Service
         }
     }
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         if(!created) {
             created = true;
 
-            // Start registered collectors
+            //start registered collectors
             scm.registerSensorCollectors();
         }
-
         return Service.START_STICKY;
     }
-
 
     @Override
     public IBinder onBind(Intent arg0)
@@ -163,14 +143,9 @@ public class SensorDataCollectorService extends Service
         return null;
     }
 
-
     @Override
-    public void onDestroy()
-    {
-        // Den SensorCollectorManager schließen
-        // scm.close();
+    public void onDestroy() {
         created = false;
-
         mWakeLock.release();
 
         unregisterReceiver(mReceiver);

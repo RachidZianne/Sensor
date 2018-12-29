@@ -3,6 +3,11 @@ package de.unima.ar.collector.api;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.io.File;
+
+import de.unima.ar.collector.GlobleMethod;
+import de.unima.ar.collector.database.SQLDBController;
+
 public class ListenerService extends WearableListenerService
 {
 
@@ -13,7 +18,13 @@ public class ListenerService extends WearableListenerService
 
         if(path.equalsIgnoreCase("/activity/start")) {
             Tasks.startWearableApp(this);
-            return;
+
+//            File source = new File(SQLDBController.getInstance().getPath());
+//
+//            System.out.print(source);
+            GlobleMethod.getInstance(this).sendDataToDevice();
+
+           // return;
         }
 
         if(path.equalsIgnoreCase("/activity/destroy")) {
@@ -50,7 +61,6 @@ public class ListenerService extends WearableListenerService
             Tasks.updateSettings(this.getBaseContext(), messageEvent.getData());
             return;
         }
-
         super.onMessageReceived(messageEvent);
     }
 }

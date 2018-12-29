@@ -24,12 +24,12 @@ public class BroadcastService implements GoogleApiClient.ConnectionCallbacks, Go
 
     private BroadcastService(Context context) {
       this.context = context;
-      gac = new GoogleApiClient.Builder(context).addApi(Wearable.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
+      gac = new GoogleApiClient.Builder(this.context).addApi(Wearable.API).addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
     }
 
     public static void initInstance(Context context) {
         if(SERVICE == null) {
-            SERVICE = new BroadcastService(context);
+           SERVICE = new BroadcastService(context);
         }
     }
 
@@ -37,17 +37,30 @@ public class BroadcastService implements GoogleApiClient.ConnectionCallbacks, Go
         return SERVICE;
     }
 
-
-    public static void shutdown() {
-        gac.disconnect();
-    }
-
-
     public GoogleApiClient getAPIClient() {
         return gac;
     }
 
+    @Override
+    public void onConnected(Bundle bundle)
+    {
+        Log.d(LOG_TAG, "Connected!");
+    }
 
+    @Override
+    public void onConnectionSuspended(int cause)
+    {
+        Log.d(LOG_TAG, "Suspended!");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+    {
+        Log.d(LOG_TAG, "Failed!");
+    }
+
+
+    //send message to connected node
     public void sendMessage(final String path, final String text)
     {
         new Thread(new Runnable()
@@ -60,7 +73,7 @@ public class BroadcastService implements GoogleApiClient.ConnectionCallbacks, Go
                         Wearable.getNodeClient(context).getConnectedNodes();
 
                 try {
-                    // Block on a task and get the result synchronously (because this is on a background thread).
+                    //Block on a task and get the result synchronously (because this is on a background thread).
                     List<Node> nodes = Tasks.await(nodeListTask);
 
                     for (Node node : nodes) {
@@ -73,39 +86,7 @@ public class BroadcastService implements GoogleApiClient.ConnectionCallbacks, Go
                 } catch (InterruptedException exception) {
                     Log.e(TAG, "Interrupt occurred: " + exception);
                 }
-
-
-//                NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(gac).await();
-//                while(nodes.getNodes().size() == 0) {
-//                    Utils.sleep(500);
-//                    nodes = Wearable.NodeApi.getConnectedNodes(gac).await();
-//                }
-//
-//                for(Node node : nodes.getNodes()) {
-//                    Wearable.MessageApi.sendMessage(gac, node.getId(), path, text.getBytes()).await();
-//                }
             }
         }).start();
-    }
-
-
-    @Override
-    public void onConnected(Bundle bundle)
-    {
-        Log.d(LOG_TAG, "Connected!");
-    }
-
-
-    @Override
-    public void onConnectionSuspended(int cause)
-    {
-        Log.d(LOG_TAG, "Suspended!");
-    }
-
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
-    {
-        Log.d(LOG_TAG, "Failed!");
     }
 }
