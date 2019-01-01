@@ -256,8 +256,6 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
     private static void insertDefaultData()
     {
-
-
         // Postures
         //        String[] postures = UIUtils.getString(R.string.activity_posture_idling, R.string.activity_posture_walking, R.string.activity_posture_cycling, R.string.activity_posture_driving, R.string.activity_posture_running, R.string.activity_posture_sitting, R.string.activity_posture_standing, R.string.activity_posture_stairsup, R.string.activity_posture_stairsdown);
         String[] postures = UIUtils.getString(R.string.activity_posture_none, R.string.activity_posture_walking, R.string.activity_posture_running, R.string.activity_posture_sitting, R.string.activity_posture_standing, R.string.activity_posture_lying, R.string.activity_posture_climbingup, R.string.activity_posture_climbingdown, R.string.activity_posture_jumping);

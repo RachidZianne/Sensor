@@ -70,7 +70,7 @@ public class ListenerService extends WearableListenerService
         String path = messageEvent.getPath();
 
         if(path.equalsIgnoreCase("/activity/started")) {
-            Tasks.informThatWearableHasStarted(messageEvent.getData(), this);
+                    Tasks.informThatWearableHasStarted(messageEvent.getData(), this);
             return;
         }
 
@@ -136,7 +136,10 @@ public class ListenerService extends WearableListenerService
                 RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), filePath);
                 MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("file",filePath.getName(),requestFile);
 
-                Call<ResponseBody> responseBodyCall = mAPIService.saveWatchData(multipartBody);
+                RequestBody device_id = RequestBody.create(okhttp3.MediaType.parse("text/plain"), String.valueOf(messageEvent.getSourceNodeId()));
+                RequestBody file_type = RequestBody.create(okhttp3.MediaType.parse("text/plain"), "watch");
+
+                Call<ResponseBody> responseBodyCall = mAPIService.saveWatchDeviceData(device_id, file_type, multipartBody);
                 responseBodyCall.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -144,7 +147,7 @@ public class ListenerService extends WearableListenerService
                         Log.d("Response", "= "+response.message());
 
                         if (response.code() == 200) {
-                            Toast.makeText(getApplicationContext(), "file send successfully!",
+                            Toast.makeText(getApplicationContext(), "file send successful from watch!",
                                     Toast.LENGTH_LONG).show();
                         }
                     }

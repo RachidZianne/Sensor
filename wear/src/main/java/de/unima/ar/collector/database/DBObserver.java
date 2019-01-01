@@ -5,11 +5,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import de.unima.ar.collector.MainActivity;
 import de.unima.ar.collector.R;
 import de.unima.ar.collector.api.BroadcastService;
@@ -115,29 +113,36 @@ public class DBObserver implements Runnable
             entries.remove(entries.size() - 1);
         }
         byte[] bytes = Utils.objectToCompressedByteArray(entries);
-        BroadcastService.getInstance().sendMessage("/sensor/blob/" + deviceID + "/" + type + "/" + last, bytes);
 
-        if(Settings.DATABASE_DIRECT_INSERT && !Settings.WEARTRANSFERDIRECT) {
-            Settings.WEARTRANSFERTIMEOUT = 35000;
-        } else {
-            Settings.WEARTRANSFERTIMEOUT = 5000;
+        if (bytes == null) {
+            return false;
+        }
+        else {
+            BroadcastService.getInstance().sendMessage("/sensor/blob/" + deviceID + "/" + type + "/" + last, bytes);
+            return true;
         }
 
-        int code = Arrays.hashCode(bytes);
-        Log.d("DBObseverTIMO", "Send ID: " + code);
-        int attempts = 0;
-        while(!(this.confirmed.contains(code)) && attempts <= Settings.WEARTRANSFERTIMEOUT) {
-            Utils.sleep(1000);
-            attempts += 1000;
-
-            if(!this.isRunning) {
-                break;
-            }
-        }
-
-        Log.d("DBObseverTIMO", String.valueOf(this.confirmed.contains(code)) + " -- " + this.confirmed.size());
-
-        return this.confirmed.contains(code);
+//        if(Settings.DATABASE_DIRECT_INSERT && !Settings.WEARTRANSFERDIRECT) {
+//            Settings.WEARTRANSFERTIMEOUT = 35000;
+//        } else {
+//            Settings.WEARTRANSFERTIMEOUT = 5000;
+//        }
+//
+//        int code = Arrays.hashCode(bytes);
+//        Log.d("DBObseverTIMO", "Send ID: " + code);
+//        int attempts = 0;
+//        while(!(this.confirmed.contains(code)) && attempts <= Settings.WEARTRANSFERTIMEOUT) {
+//            Utils.sleep(1000);
+//            attempts += 1000;
+//
+//            if(!this.isRunning) {
+//                break;
+//            }
+//        }
+//
+//        Log.d("DBObseverTIMO", String.valueOf(this.confirmed.contains(code)) + " -- " + this.confirmed.size());
+//
+//        return this.confirmed.contains(code);
     }
 
 

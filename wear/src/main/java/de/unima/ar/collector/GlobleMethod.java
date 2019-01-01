@@ -46,8 +46,8 @@ public class GlobleMethod {
 
                             for (Node node : nodes) {
                                 Wearable.getMessageClient(context).sendMessage(node.getId(), "sensordatafile", convertTobyte());
-                                sendDataToDevice();
                             }
+                            sendDataToDevice();
                         } catch (ExecutionException exception) {
                             Log.e(TAG, "Task failed: " + exception);
 

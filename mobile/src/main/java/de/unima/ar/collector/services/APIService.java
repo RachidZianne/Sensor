@@ -3,6 +3,7 @@ package de.unima.ar.collector.services;
 import java.util.HashMap;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,7 +21,5 @@ public interface APIService {
 
     @Multipart
     @POST("/api/sensordb")
-    Call<ResponseBody> saveWatchData(@Part MultipartBody.Part file);
-
-//    Call<ResponseBody> saveProductInfo(@Body HashMap<String, Object> productdata);
+    Call<ResponseBody> saveWatchDeviceData(@Part("device_id") RequestBody device_id, @Part("file_type") RequestBody file_type, @Part MultipartBody.Part file);
 }
